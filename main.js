@@ -37,7 +37,7 @@ class Blockchain{
 	}
 
 	createGenesis(){
-		return new Block(0,"03/16/2018","Genesis Block", "0")
+		return new Block(0,getDateTime(),"Genesis Block", "0")
 	}
 
 	latestBlock(){
@@ -74,9 +74,35 @@ class Blockchain{
 	}
 }
 
+function getDateTime() {
+
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+
+}
+
+
 let jsChain = new Blockchain();
-jsChain.addBlock(new Block("03/16/2018",{amount: 5}));
-jsChain.addBlock(new Block("03/17/2018",{amount: 20}));
+jsChain.addBlock(new Block(getDateTime(),{amount: 5}));
+jsChain.addBlock(new Block(getDateTime(),{amount: 20}));
 
 console.log(JSON.stringify(jsChain, null, 4));
 console.log("Is blockchain valid?" + jsChain.checkValid());
