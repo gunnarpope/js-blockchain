@@ -37,7 +37,7 @@ class Blockchain{
 	}
 
 	createGenesis(){
-		return new Block(0,"01/01/2017","Genesis Block", "0")
+		return new Block(0,"03/16/2018","Genesis Block", "0")
 	}
 
 	latestBlock(){
@@ -59,19 +59,24 @@ class Blockchain{
 			const previousBlock = this.chain[i-1];
 
 			if (currentBlock.hash !== currentBlock.calculateHash()){
+				console.log(currentBlock.hash);
+				console.log(currentBlock.calculateHash());
 				return false;
 			}
 
-			if (currentBlock.previousHash !== previousBlock.hash){
+			else if (currentBlock.previousHash !== previousBlock.hash){
 				return false;
 			}
+
+			else
+				return true;
 		}
 	}
 }
 
 let jsChain = new Blockchain();
-jsChain.addBlock(new Block("03/15/2018",{amount: 5}));
-jsChain.addBlock(new Block("03/16/2018",{amount: 20}));
+jsChain.addBlock(new Block("03/16/2018",{amount: 5}));
+jsChain.addBlock(new Block("03/17/2018",{amount: 20}));
 
 console.log(JSON.stringify(jsChain, null, 4));
 console.log("Is blockchain valid?" + jsChain.checkValid());
