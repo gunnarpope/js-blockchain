@@ -59,18 +59,16 @@ class Blockchain{
 			const previousBlock = this.chain[i-1];
 
 			if (currentBlock.hash !== currentBlock.calculateHash()){
-				console.log(currentBlock.hash);
-				console.log(currentBlock.calculateHash());
 				return false;
 			}
 
-			else if (currentBlock.previousHash !== previousBlock.hash){
+			if (currentBlock.previousHash !== previousBlock.hash){
 				return false;
 			}
 
-			else
-				return true;
+			
 		}
+		return true;
 	}
 }
 
@@ -85,7 +83,19 @@ function getDateTime() {
     min = (min < 10 ? "0" : "") + min;
 
     var sec  = date.getSeconds();
-    sec = (sec < 10 ? "0" : "") + sec;
+
+    var millisec = date.getMilliseconds();
+
+    if (millisec < 100){
+    	if (millisec < 10){
+    		millisec = "00" + millisec;
+    	}
+    	else{
+    		millisec = "0" + millisec;
+    	}
+
+    }
+    
 
     var year = date.getFullYear();
 
@@ -95,14 +105,16 @@ function getDateTime() {
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
 
-    return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+    return year + ":" + month + ":" + day + " " + hour + ":" + min + ":" + sec + "." + millisec;
 
 }
 
 
 let jsChain = new Blockchain();
-jsChain.addBlock(new Block(getDateTime(),{amount: 5}));
-jsChain.addBlock(new Block(getDateTime(),{amount: 20}));
+for(let i = 1; i<10; i++){
+	jsChain.addBlock(new Block(getDateTime(),{amount: i}));
+}
+
 
 console.log(JSON.stringify(jsChain, null, 4));
 console.log("Is blockchain valid?" + jsChain.checkValid());
